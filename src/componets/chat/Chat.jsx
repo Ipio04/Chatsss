@@ -7,6 +7,8 @@ import { doc } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import { useUserStore } from "../../lib/userStore";
 import { upload } from "upload";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
 
 
 
@@ -40,6 +42,14 @@ const Chat = () => {
   },[chatId])
 
  
+  const upload = async (file) => {
+    const storage = getStorage();
+    const storageRef = ref(storage, `images/${file.name}`);
+    await uploadBytes(storageRef, file);
+    const url = await getDownloadURL(storageRef);
+    return url;
+  };
+
 
   const handleEmoji = e =>{
     setText((prev) => prev + e.emoji);
@@ -56,7 +66,7 @@ const Chat = () => {
 
 
   const handleSend = async () => {
-    if (text === "") return;
+    if (text === "" && !img.file) return;
 
     let imgUrl = null
 
@@ -129,7 +139,7 @@ const Chat = () => {
           </div>
         </div>
         <div className="center">
-          {chat?.messages?.map((message) => {
+          {chat?.messages?.map((message) => (
               <div className={message.senderId === currentUser?.id ? "message own" : "message"} key={message?.createAt}>
                 <div className="text">
                   {message.img && 
@@ -138,7 +148,7 @@ const Chat = () => {
                   {/*<span>{message}</span>*/}
                 </div>
               </div>
-            })}
+            ))}
          {img.url && <div className="message own" > 
             <div className="text">
               <img src={img.url} alt="" />

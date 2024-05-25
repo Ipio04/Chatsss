@@ -82,9 +82,9 @@
             }
 
             img{
-                width: 30px;
-                height: 30px;
-                border-radius: 50%;
+                width: 150px;
+                height: 1500px;
+                
                 object-fit: cover;
             }
             .text{
@@ -94,9 +94,9 @@
                 gap: 5px;
 
                 img{
-                    width: 30px;
-                    height: 30px;
-                    border-radius: 50%;
+                    width: 150px;
+                    height: 150px;
+                    
                     object-fit: cover;
                 }
 
